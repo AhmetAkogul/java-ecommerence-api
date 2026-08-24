@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,13 +24,16 @@ public class ProductController {
 
     @GetMapping
     public List<Product> getProducts() {
-        return productService.getProducts();
+        return productService.getAllProducts();
+    }
+
+    @PostMapping
+        public Product createProduct(@RequestBody Product product) {
+    return productService.createProduct(product);
     }
 
     @GetMapping("/{id}")
-    public Product getProduct(@PathVariable Long id) {
-        return productService.getProduct(id);
+        public Product getProductById(@PathVariable Long id) {
+    return productService.getProductById(id);
     }
-    
 }
-

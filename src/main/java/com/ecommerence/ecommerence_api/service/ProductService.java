@@ -2,36 +2,35 @@ package com.ecommerence.ecommerence_api.service;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ecommerence.ecommerence_api.model.Product;
+import com.ecommerence.ecommerence_api.repository.ProductRepository;
 
 @Service
 public class ProductService {
 
-    private final List<Product> products;
+    private final ProductRepository productRepository;
 
-    public ProductService() {
-
-        Product product1 = new Product( 1L, "Laptop", 25000 );
-        Product product2 = new Product( 2L, "Mouse", 1500 );
-
-        products = List.of(product1, product2);
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 
-    public Product getProduct(Long id) {
-
-        for (Product product : products) {
-
-            if (product.getId().equals(id)) {
-                return product;
-            }
-        }
-
-        return null;
+    public Product createProduct(Product product) {
+        return productRepository.save(product);
     }
+
+    public Product getProductById(Long id) {
+    return productRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Ürün bulunamadı"
+            ));
+}
 }
