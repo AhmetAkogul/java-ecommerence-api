@@ -10,3 +10,5 @@ public class EcommerenceApiApplication {
         SpringApplication.run(EcommerenceApiApplication.class, args);
     }
 }
+
+//@RestController sınıflarını bulur, @Service sınıflarını bulur, JpaRepository sınıflarını hazırlar, @Entity sınıflarından tabloları oluşturur, application.properties ayarlarını okur,

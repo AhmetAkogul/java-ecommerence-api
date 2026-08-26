@@ -32,5 +32,18 @@ public class ProductService {
                     HttpStatus.NOT_FOUND,
                     "Ürün bulunamadı"
             ));
-}
+    }
+
+    public void deleteProductById(Long id) {
+        Product product = getProductById(id);
+        productRepository.delete(product);
+    } // ürünlerin silinmesi icin method
+
+    public Product updateProduct(Long id, Product updatedProduct) {
+        Product product = getProductById(id);
+        product.setName(updatedProduct.getName());
+        product.setPrice(updatedProduct.getPrice());
+
+    return productRepository.save(product);
+    } // ürünlerin güncellenmesi icin method
 }

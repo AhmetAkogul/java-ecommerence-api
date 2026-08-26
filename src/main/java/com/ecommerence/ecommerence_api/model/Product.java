@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Entity
+@Entity // bu bir veritabanı tablosuna karsilik geliyor (entity)
 public class Product {
 
     @Id
@@ -47,3 +47,5 @@ public class Product {
         this.price = price;
     }
 }
+
+// h2 database
