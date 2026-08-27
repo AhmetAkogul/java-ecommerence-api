@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerence.ecommerence_api.model.Product;
@@ -50,4 +51,12 @@ public class ProductController {
         @RequestBody Product updatedProduct) {
     return productService.updateProduct(id, updatedProduct);
     } // urunleri guncellemek icin
+
+
+    @GetMapping("/search")
+    public List<Product> searchProducts(@RequestParam String name) {
+    return productService.searchProducts(name);
+    } // urunleri aramak için
 }
+
+// .\mvnw.cmd spring-boot:run
