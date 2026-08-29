@@ -1,6 +1,8 @@
 package com.ecommerence.ecommerence_api.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,13 +18,17 @@ public class Product {
     private double price;
     private int stock;
 
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
     public Product() {
     }
 
-    public Product(String name, double price, int stock) {
+    public Product(String name, double price, int stock, Category category) {
         this.name = name;
         this.price = price;
         this.stock = stock;
+        this.category = category;
     }
 
     public Long getId() {
@@ -55,6 +61,14 @@ public class Product {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
 

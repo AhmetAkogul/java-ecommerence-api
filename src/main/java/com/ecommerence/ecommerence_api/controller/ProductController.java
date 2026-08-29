@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerence.ecommerence_api.model.Product;
+import com.ecommerence.ecommerence_api.dto.ProductRequest;
+import com.ecommerence.ecommerence_api.dto.ProductResponse;
+import com.ecommerence.ecommerence_api.model.Category;
 import com.ecommerence.ecommerence_api.service.ProductService;
 
 @RestController
@@ -25,38 +27,54 @@ public class ProductController {
         this.productService = productService;
     }
 
+
     @GetMapping
-    public List<Product> getProducts() {
+    public List<ProductResponse> getProducts() {
         return productService.getAllProducts();
     }
 
+
     @PostMapping
-        public Product createProduct(@RequestBody Product product) {
-    return productService.createProduct(product);
+    public ProductResponse createProduct(@RequestBody ProductRequest request) {
+        return productService.createProduct(request);
     }
 
+
     @GetMapping("/{id}")
-        public Product getProductById(@PathVariable Long id) {
-    return productService.getProductById(id);
+    public ProductResponse getProductById(@PathVariable Long id) {
+        return productService.getProductById(id);
+
     }
 
     @DeleteMapping("/{id}")
-        public void deleteProductById(@PathVariable Long id) {
+    public void deleteProductById(@PathVariable Long id) {
         productService.deleteProductById(id);
-    } // urunleri silmek icin
+    } // ürünleri silmek için
+
+
 
     @PutMapping("/{id}")
-        public Product updateProduct(
-        @PathVariable Long id,
-        @RequestBody Product updatedProduct) {
-    return productService.updateProduct(id, updatedProduct);
-    } // urunleri guncellemek icin
+    public ProductResponse updateProduct(
+            @PathVariable Long id,
+            @RequestBody ProductRequest request
+    ) {
+        return productService.updateProduct(id, request);
+    } // ürünleri güncellemek için
+
 
 
     @GetMapping("/search")
-    public List<Product> searchProducts(@RequestParam String name) {
-    return productService.searchProducts(name);
-    } // urunleri aramak için
+    public List<ProductResponse> searchProducts(@RequestParam String name) {
+        return productService.searchProducts(name);
+    } // ürünleri aramak için
+
+
+    @GetMapping("/category/{category}")
+    public List<ProductResponse> getProductsByCategory(
+        @PathVariable Category category
+    ) {
+        return productService.getProductsByCategory(category);
+    } // kategori ile ürün aramak için
 }
 
-// .\mvnw.cmd spring-boot:run
+//.\mvnw.cmd spring-boot:run

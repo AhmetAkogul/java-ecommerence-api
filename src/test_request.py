@@ -1,13 +1,8 @@
 import requests
 
-response = requests.post(
-    "http://localhost:8080/products",
-    json={
-  "id": 991,
-  "name": "Mouse",
-  "price": 750,
-  "stock": 10
-}
+response = requests.get(
+    "http://localhost:8080/products/category/ELECTRONICS"
 )
 
+print(response.status_code)
 print(response.json())
