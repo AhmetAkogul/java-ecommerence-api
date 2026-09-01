@@ -75,6 +75,15 @@ public class ProductController {
     ) {
         return productService.getProductsByCategory(category);
     } // kategori ile ürün aramak için
+
+
+    @PostMapping("/{id}/decrease-stock")
+    public ProductResponse decreaseStock(
+        @PathVariable Long id,
+        @RequestParam int quantity
+    ) {
+        return productService.decreaseStock(id, quantity);
+    } // stok azaltmak icin
 }
 
 //.\mvnw.cmd spring-boot:run

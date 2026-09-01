@@ -124,4 +124,30 @@ public class ProductService {
             product.getCategory()
         );
     }
+
+
+
+    public ProductResponse decreaseStock(Long id, int quantity) {
+    if (quantity <= 0) {
+        throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Quantity must be greater than 0"
+        );
+    }
+
+    Product product = findProductById(id);
+
+    if (product.getStock() < quantity) {
+        throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Insufficient stock"
+        );
+    }
+
+    product.setStock(product.getStock() - quantity);
+
+    return toProductResponse(productRepository.save(product));
+    } //stok azaltma
+
+    
 }
