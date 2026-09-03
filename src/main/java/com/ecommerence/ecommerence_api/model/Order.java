@@ -3,6 +3,8 @@ package com.ecommerence.ecommerence_api.model;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,16 +16,19 @@ import jakarta.persistence.Table;
 @Table(name = "orders")
 public class Order {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+@ManyToOne
+@JoinColumn(name = "product_id")
+private Product product;
 
-    private int quantity;
-    private LocalDateTime createdAt;
+private int quantity;
+private LocalDateTime createdAt;
+
+@Enumerated(EnumType.STRING)
+private OrderStatus status;
 
     public Order() {
     }
@@ -32,6 +37,7 @@ public class Order {
         this.product = product;
         this.quantity = quantity;
         this.createdAt = LocalDateTime.now();
+        this.status = OrderStatus.PENDING;
     }
 
     public Long getId() {
@@ -48,5 +54,13 @@ public class Order {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void cancel() {
+        this.status = OrderStatus.CANCELLED;
     }
 }

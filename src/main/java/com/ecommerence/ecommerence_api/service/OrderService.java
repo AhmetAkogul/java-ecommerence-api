@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.ecommerence.ecommerence_api.dto.OrderRequest;
 import com.ecommerence.ecommerence_api.dto.OrderResponse;
 import com.ecommerence.ecommerence_api.model.Order;
+import com.ecommerence.ecommerence_api.model.OrderStatus;
 import com.ecommerence.ecommerence_api.model.Product;
 import com.ecommerence.ecommerence_api.repository.OrderRepository;
 import com.ecommerence.ecommerence_api.repository.ProductRepository;
@@ -73,13 +74,56 @@ public class OrderService {
                 .toList();
     }
 
+
+
+
+    @Transactional
+    public OrderResponse cancelOrder(Long id) {
+        Order order = orderRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Order not found"
+            ));
+
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Order is already cancelled"
+            );
+        }
+
+        if (order.getStatus() == OrderStatus.COMPLETED) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Completed order cannot be cancelled"
+            );
+        }
+
+        Product product = order.getProduct();
+
+        product.setStock(product.getStock() + order.getQuantity());
+        productRepository.save(product);
+
+        order.cancel();
+
+        return toOrderResponse(orderRepository.save(order));
+        
+    } // sipariş iptal methodu
+
+
+
+
+
+
+
     private OrderResponse toOrderResponse(Order order) {
         return new OrderResponse(
                 order.getId(),
                 order.getProduct().getId(),
                 order.getProduct().getName(),
                 order.getQuantity(),
-                order.getCreatedAt()
+                order.getCreatedAt(),
+                order.getStatus()
         );
     }
 }

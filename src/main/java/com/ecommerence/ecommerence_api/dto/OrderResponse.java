@@ -1,6 +1,8 @@
 package com.ecommerence.ecommerence_api.dto;
-
 import java.time.LocalDateTime;
+
+import com.ecommerence.ecommerence_api.model.OrderStatus;
+
 
 public class OrderResponse {
 
@@ -9,19 +11,22 @@ public class OrderResponse {
     private String productName;
     private int quantity;
     private LocalDateTime createdAt;
+    private OrderStatus status;
 
     public OrderResponse(
             Long id,
             Long productId,
             String productName,
             int quantity,
-            LocalDateTime createdAt
+            LocalDateTime createdAt,
+            OrderStatus status
     ) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
         this.quantity = quantity;
         this.createdAt = createdAt;
+        this.status = status;
     }
 
     public Long getId() {
@@ -42,5 +47,9 @@ public class OrderResponse {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
     }
 }
